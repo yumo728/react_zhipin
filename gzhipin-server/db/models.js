@@ -23,7 +23,7 @@ conn.on('connected', () => {
 })
 
 /*2. 定义出对应特定集合的Model并向外暴露*/
-// 2.1. 字义Schema(描述文档结构)
+// 2.1. 定义Schema(描述文档结构)
 const userSchema = mongoose.Schema({
     username: {type: String, required: true}, // 用户名
     password: {type: String, required: true}, // 密码
@@ -43,3 +43,16 @@ exports.UserModel = UserModel
 // exports.xxx = value   暴露多次（部分）
 // exports.yyy = value
 
+// 定义chats集合的文档结构
+const chatSchema = mongoose.Schema({
+    from: {type: String, required: true}, // 发送用户的id
+    to: {type: String, required: true}, // 接收用户的id
+    chat_id: {type: String, required: true}, // from和to组成的字符串
+    content: {type: String, required: true}, // 内容
+    read: {type:Boolean, default: false}, // 标识是否已读
+    create_time: {type: Number} // 创建时间
+})
+// 定义能操作chats集合数据的Model
+const ChatModel = mongoose.model('chat', chatSchema) // 集合为: chats
+// 向外暴露Model
+exports.ChatModel = ChatModel
